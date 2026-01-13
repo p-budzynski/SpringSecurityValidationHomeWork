@@ -1,0 +1,7 @@
+spring:
+    messages:
+        basename: ValidationMessages_pl
+        encoding: UTF-8
+
+app:
+    default-language: pl

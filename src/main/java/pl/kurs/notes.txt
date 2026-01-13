@@ -1,0 +1,8 @@
+Praca domowa:
+
+Zrob prosty CRUD z samochodami (tylko dodawnie usuwanie, edycja samochodow), gdzie dodasz swoje custom walidatory (np. vin, rocznik, etc.),
+wczytaj wiadomosci walidacyjne z pliku - zrob tak zeby miec dwa pliki, dla dwoch roznych regionow i wczytuj je w zaleznosci od profilu aplikacji
+
+- do poprzednich zajec z Car - dodaj odpowiednie role, czyli np. samochod moze dodac user oraz admin, skasowac moze tylko admin, dodaj kilku userow z roznymi rolami
+
+JsonWebToken - JWT
