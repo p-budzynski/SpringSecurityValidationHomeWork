@@ -1,4 +1,6 @@
 spring:
+    profiles:
+        active: en
     messages:
         basename: ValidationMessages_en
         encoding: UTF-8
@@ -27,3 +29,21 @@ spring:
 
 server:
     port: 8081
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: pl
+    messages:
+        basename: ValidationMessages_pl
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: de
+    messages:
+        basename: ValidationMessages_de

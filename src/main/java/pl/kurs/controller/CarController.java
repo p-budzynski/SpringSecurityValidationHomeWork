@@ -39,7 +39,7 @@ public class CarController {
     @PutMapping
     public ResponseEntity<CarDto> updateCar(@RequestBody @Validated(Update.class) CarDto carDto) {
         Car car = carMapper.dtoToEntityWithId(carDto);
-        Car updatedCar = carService.updatedCar(car);
+        Car updatedCar = carService.updateCar(car);
         return ResponseEntity.ok(carMapper.entityToDto(updatedCar));
     }
 

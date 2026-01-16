@@ -16,7 +16,7 @@ public class CarService {
 
     public Car getCarById(Long id) {
         return carRepository.findById(id)
-                .orElseThrow(() -> new CarNotFoundException("Car with id: " + id + " not found"));
+                .orElseThrow(() -> new CarNotFoundException(id));
     }
 
     public Car saveCar(Car car) {
@@ -28,9 +28,9 @@ public class CarService {
     }
 
     @Transactional
-    public Car updatedCar(Car car) {
+    public Car updateCar(Car car) {
         Car carToUpdate = carRepository.findById(car.getId())
-                .orElseThrow(() -> new CarNotFoundException("Car with id: " + car.getId() + " not found"));
+                .orElseThrow(() -> new CarNotFoundException(car.getId()));
         BeanUtils.copyProperties(car, carToUpdate);
         return carRepository.save(carToUpdate);
     }

@@ -1,0 +1,166 @@
+{
+	"info": {
+		"_postman_id": "6dd6d5eb-d31c-4f0d-8cb2-77b50f593e23",
+		"name": "SpringSecurityAndValidation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48853823"
+	},
+	"item": [
+		{
+			"name": "admin - get car by id",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "adam",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "adam",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/cars/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"cars",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin - delete car by id",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "adam",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "adam",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/cars/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"cars",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin - create car",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "adam",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "adam",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"producer\": \"AUDI\",\r\n    \"model\": \"Q3\",\r\n    \"vinNumber\": \"WBAN1234528890123\",\r\n    \"yearOfProduction\": 2015,\r\n    \"registrationNumber\": \"WW100\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/cars",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin - update car",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "adam",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "adam",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 5,\r\n    \"producer\": \"BMW\",\r\n    \"model\": \"M3\",\r\n    \"vinNumber\": \"VBAN1234667891234\",\r\n    \"yearOfProduction\": 2020,\r\n    \"registrationNumber\": \"W1POWER\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/cars",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"cars"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

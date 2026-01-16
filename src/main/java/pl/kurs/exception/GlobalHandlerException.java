@@ -2,6 +2,9 @@ package pl.kurs.exception;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -16,9 +19,18 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalHandlerException {
 
+    @Autowired
+    private MessageSource messageSource;
+
     @ExceptionHandler(CarNotFoundException.class)
     public ResponseEntity<ExceptionResponseDto> handleDataNotFoundException(CarNotFoundException exception) {
-        ExceptionResponseDto response = new ExceptionResponseDto(exception.getMessage(), HttpStatus.NOT_FOUND.toString(), LocalDateTime.now());
+        String message = messageSource.getMessage(
+                "car.notFoundException",
+                new Object[]{exception.getCarId()},
+                LocaleContextHolder.getLocale()
+        );
+
+        ExceptionResponseDto response = new ExceptionResponseDto(message, HttpStatus.NOT_FOUND.toString(), LocalDateTime.now());
         return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(response);
     }
 
