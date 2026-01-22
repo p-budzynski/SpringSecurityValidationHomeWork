@@ -44,10 +44,10 @@ public class PolishPlateValidatorTest {
     @ParameterizedTest
     @ValueSource(strings = {"WA1", "WA1234567890"})
     void shouldReturnFalseWhenPlateNumberLengthIsInvalid(String invalidVin) {
-        //when
-        when(context.buildConstraintViolationWithTemplate(anyString())).thenReturn(builder);
-        when(builder.addConstraintViolation()).thenReturn(context);
+        //given
+        stubConstraintViolation();
 
+        //when
         boolean result = validator.isValid(invalidVin, context);
 
         //then
@@ -69,15 +69,20 @@ public class PolishPlateValidatorTest {
     void shouldReturnFalseWhenPlateNumberFormatIsInvalid() {
         //given
         String invalidFormat = "12345";
+        stubConstraintViolation();
 
         //when
-        when(context.buildConstraintViolationWithTemplate(anyString())).thenReturn(builder);
-        when(builder.addConstraintViolation()).thenReturn(context);
-
         boolean result = validator.isValid(invalidFormat, context);
 
         //then
         assertFalse(result);
         verify(context).buildConstraintViolationWithTemplate("{car.registrationNumber.format}");
+    }
+
+    private void stubConstraintViolation() {
+        when(context.buildConstraintViolationWithTemplate(anyString()))
+                .thenReturn(builder);
+        when(builder.addConstraintViolation())
+                .thenReturn(context);
     }
 }

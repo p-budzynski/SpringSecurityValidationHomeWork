@@ -55,10 +55,10 @@ public class VinNumberValidatorTest {
     @ParameterizedTest
     @ValueSource(strings = {"SHORT1234", "LONG12345678901234567890"})
     void shouldReturnFalseWhenVinNumberLengthIsInvalid(String invalidVin) {
-        //when
-        when(context.buildConstraintViolationWithTemplate(anyString())).thenReturn(builder);
-        when(builder.addConstraintViolation()).thenReturn(context);
+        //given
+        stubConstraintViolation();
 
+        //when
         boolean result = validator.isValid(invalidVin, context);
 
         //then
@@ -70,11 +70,9 @@ public class VinNumberValidatorTest {
     void shouldReturnFalseWhenVinNumberContainsInvalidCharacters() {
         //given
         String invalidVin = "IOQ12345678901234";
+        stubConstraintViolation();
 
         //when
-        when(context.buildConstraintViolationWithTemplate(anyString())).thenReturn(builder);
-        when(builder.addConstraintViolation()).thenReturn(context);
-
         boolean result = validator.isValid(invalidVin, context);
 
         //then
@@ -85,15 +83,22 @@ public class VinNumberValidatorTest {
     @ParameterizedTest
     @ValueSource(strings = {"1M2AX12340W123456", "1M2AX12349W123456"})
     void shouldReturnFalseWhenVinNumberCheckDigitIsInvalid(String invalidVin) {
-        //when
-        when(context.buildConstraintViolationWithTemplate(anyString())).thenReturn(builder);
-        when(builder.addConstraintViolation()).thenReturn(context);
+        //given
+        stubConstraintViolation();
 
+        //when
         boolean result = validator.isValid(invalidVin, context);
 
         //then
         assertFalse(result);
         verify(context).buildConstraintViolationWithTemplate("{car.vinNumber.check}");
+    }
+
+    private void stubConstraintViolation() {
+        when(context.buildConstraintViolationWithTemplate(anyString()))
+                .thenReturn(builder);
+        when(builder.addConstraintViolation())
+                .thenReturn(context);
     }
 
 }
