@@ -105,7 +105,7 @@ public class CarControllerTest {
         //given
         Car savedCar = carRepository.save(createTestCar());
 
-        //when then
+        //when
         mockMvc.perform(delete("/cars/" + savedCar.getId())
                         .with(httpBasic("adam", "adam")))
                 .andExpect(status().isOk());

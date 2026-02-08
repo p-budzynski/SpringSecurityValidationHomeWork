@@ -3,9 +3,9 @@ package pl.kurs.exception;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -22,6 +22,30 @@ public class GlobalHandlerException {
 
     @Autowired
     private MessageSource messageSource;
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ExceptionResponseDto> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
+        String message = exception.getMessage();
+
+        if (message != null && message.contains("users_email_key")) {
+            ExceptionResponseDto response = new ExceptionResponseDto(
+                    "User with this email already exists", HttpStatus.CONFLICT.toString(), LocalDateTime.now()
+            );
+            return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(response);
+        }
+
+        if (message != null && message.contains("users_username_key")) {
+            ExceptionResponseDto response = new ExceptionResponseDto(
+                    "User with this name already exists", HttpStatus.CONFLICT.toString(), LocalDateTime.now()
+            );
+            return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(response);
+        }
+
+        ExceptionResponseDto response = new ExceptionResponseDto(
+                "Data integrity violation", HttpStatus.CONFLICT.toString(), LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(response);
+    }
 
     @ExceptionHandler(CarNotFoundException.class)
     public ResponseEntity<ExceptionResponseDto> handleDataNotFoundException(CarNotFoundException exception) {
@@ -59,6 +83,18 @@ public class GlobalHandlerException {
                 .collect(Collectors.joining("; "));
 
         ExceptionResponseDto response = new ExceptionResponseDto(errorMessages, HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(response);
+    }
+
+    @ExceptionHandler(RoleIsExistsException.class)
+    public ResponseEntity<ExceptionResponseDto> handleRoleIsExistsException(RoleIsExistsException exception) {
+        ExceptionResponseDto response = new ExceptionResponseDto(exception.getMessage(), HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(response);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ExceptionResponseDto> handleUserNotFoundException(UserNotFoundException exception) {
+        ExceptionResponseDto response = new ExceptionResponseDto(exception.getMessage(), HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(response);
     }
 

@@ -6,6 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import pl.kurs.annotation.IsGuest;
+import pl.kurs.annotation.IsModerator;
+import pl.kurs.annotation.IsUser;
 import pl.kurs.dto.CarDto;
 import pl.kurs.entity.Car;
 import pl.kurs.mapper.CarMapper;
@@ -23,6 +26,7 @@ public class CarController {
     private final CarMapper carMapper;
 
     @GetMapping("/{id}")
+    @IsGuest
     public ResponseEntity<CarDto> getById(@PathVariable("id") @Min(value = 1, message = "{car.controller.id.min}") Long id) {
         Car car = carService.getCarById(id);
         return ResponseEntity.ok(carMapper.entityToDto(car));
@@ -30,6 +34,7 @@ public class CarController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @IsUser
     public CarDto createCar(@RequestBody @Validated(Create.class) CarDto carDto) {
         Car car = carMapper.dtoToEntity(carDto);
         Car savedCar = carService.saveCar(car);
@@ -37,6 +42,7 @@ public class CarController {
     }
 
     @PutMapping
+    @IsModerator
     public ResponseEntity<CarDto> updateCar(@RequestBody @Validated(Update.class) CarDto carDto) {
         Car car = carMapper.dtoToEntityWithId(carDto);
         Car updatedCar = carService.updateCar(car);
@@ -44,6 +50,7 @@ public class CarController {
     }
 
     @DeleteMapping("/{id}")
+    @IsModerator
     public void deleteById(@PathVariable @Min(value = 1, message = "{car.controller.id.min}") Long id) {
         carService.deleteCarById(id);
     }
